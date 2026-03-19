@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#0F1520">
+<title>Motor Show 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{background:#F0F3F8;color:#1A202C;font-family:'Sarabun',sans-serif;font-size:15px;line-height:1.6;overscroll-behavior:none;}
+
+/* ── HERO ── */
+.hero{
+  background:linear-gradient(160deg,#0F1520 60%,#1a2a4a);
+  padding:3rem 1.2rem 2.5rem;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 47px,rgba(255,255,255,0.025) 47px,rgba(255,255,255,0.025) 48px),
+             repeating-linear-gradient(90deg,transparent,transparent 47px,rgba(255,255,255,0.025) 47px,rgba(255,255,255,0.025) 48px);
+  pointer-events:none;
+}
+.hero-tag{
+  display:inline-block;font-size:0.65rem;letter-spacing:0.2em;
+  text-transform:uppercase;color:#90CAF9;
+  border:1px solid rgba(144,202,249,0.3);padding:0.35em 1em;
+  border-radius:20px;margin-bottom:1rem;
+  animation:fadeUp .5s ease both;
+}
+.hero-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(3rem,14vw,5.5rem);line-height:.9;
+  color:#fff;letter-spacing:.03em;
+  animation:fadeUp .5s .08s ease both;
+}
+.hero-title span{color:#60A5FA;display:block;}
+.hero-meta{
+  margin-top:1rem;font-size:.9rem;color:#90A4AE;line-height:1.9;
+  animation:fadeUp .5s .16s ease both;
+}
+.hero-meta strong{color:#FACC15;font-weight:600;}
+.hero-date-badge{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:rgba(250,204,21,.12);border:1px solid rgba(250,204,21,.3);
+  color:#FACC15;padding:.4em 1em;border-radius:20px;
+  font-size:.82rem;font-weight:600;margin-top:.9rem;
+  animation:fadeUp .5s .22s ease both;
+}
+
+/* ── BRAND NAV PILLS ── */
+.brand-nav{
+  background:#1A2438;padding:.75rem 1rem;
+  display:flex;gap:.5rem;overflow-x:auto;-webkit-overflow-scrolling:touch;
+  scrollbar-width:none;border-bottom:2px solid #2563EB;
+  position:sticky;top:0;z-index:100;
+}
+.brand-nav::-webkit-scrollbar{display:none;}
+.brand-pill{
+  flex-shrink:0;
+  font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:.06em;
+  padding:.3em .9em;border-radius:20px;border:1.5px solid;
+  cursor:pointer;transition:all .2s;white-space:nowrap;
+  text-decoration:none;display:block;
+}
+.brand-pill:active{transform:scale(.94);}
+
+/* ── PAGE WRAP ── */
+.page{max-width:640px;margin:0 auto;padding:1rem .9rem 4rem;}
+
+/* ── SECTION LABEL ── */
+.sec-lbl{
+  font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
+  color:#718096;display:flex;align-items:center;gap:.6rem;
+  margin:1.5rem 0 .9rem;
+}
+.sec-lbl::after{content:'';flex:1;height:1px;background:#D0D8E8;}
+
+/* ── BRAND CARD ── */
+.brand-card{
+  background:#fff;border:1px solid #D0D8E8;border-radius:12px;
+  overflow:hidden;margin-bottom:1rem;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+  opacity:0;transform:translateY(18px);
+  transition:opacity .45s ease,transform .45s ease;
+}
+.brand-card.visible{opacity:1;transform:none;}
+.brand-card.dim-card.visible{opacity:.82;}
+
+/* ── CARD HEADER (tap to expand) ── */
+.card-header{
+  display:flex;align-items:center;gap:.75rem;
+  padding:.85rem 1.1rem;cursor:pointer;
+  border-left:4px solid var(--bc,#CBD5E0);
+  background:var(--bt,#F7FAFC);
+  user-select:none;
+  position:relative;overflow:hidden;
+  transition:background .2s;
+}
+.card-header:active{background:var(--bta,#EDF2F7);}
+/* shimmer */
+.card-header::after{
+  content:'';position:absolute;top:0;left:-80%;width:50%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);
+  transition:left .5s ease;pointer-events:none;
+}
+.brand-card:hover .card-header::after{left:120%;}
+
+.card-brand-name{
+  font-family:'Bebas Neue',sans-serif;font-size:1.9rem;
+  letter-spacing:.06em;color:var(--bc,#2D3748);line-height:1;
+  min-width:90px;flex-shrink:0;
+}
+.card-info{flex:1;min-width:0;}
+.card-model{font-size:.9rem;font-weight:700;color:#1A202C;line-height:1.3;}
+.card-sub{font-size:.75rem;color:#718096;margin-top:.1rem;}
+.card-chevron{
+  color:#A0AEC0;font-size:1.1rem;flex-shrink:0;
+  transition:transform .3s ease;
+}
+.brand-card.open .card-chevron{transform:rotate(180deg);}
+
+/* ── BADGES ROW ── */
+.badges-row{
+  display:flex;flex-wrap:wrap;gap:.35rem;
+  padding:.55rem 1.1rem;
+  border-bottom:1px solid #E8ECF4;
+  background:var(--bt,#F7FAFC);
+}
+.bdg{
+  font-size:.62rem;letter-spacing:.08em;font-weight:600;
+  padding:.22em .65em;border-radius:20px;border:1px solid;white-space:nowrap;
+}
+.bdg-ev    {background:#EBF8FF;color:#2B6CB0;border-color:#BEE3F8;}
+.bdg-hev   {background:#F0FFF4;color:#276749;border-color:#9AE6B4;}
+.bdg-diesel{background:#FFFBEB;color:#92400E;border-color:#FCD34D;}
+.bdg-red   {background:#FFF5F5;color:#C53030;border-color:#FEB2B2;}
+.bdg-yellow{background:#FFFBEB;color:#92400E;border-color:#F6E05E;}
+
+/* ── CARD BODY (collapsible) ── */
+.card-body{
+  max-height:0;overflow:hidden;
+  transition:max-height .4s cubic-bezier(.4,0,.2,1);
+}
+.brand-card.open .card-body{max-height:9999px;}
+
+/* ── PRICE BANNER ── */
+.price-banner{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.8rem 1.1rem;
+  background:linear-gradient(135deg,#1A202C,#2D3748);
+  flex-wrap:wrap;gap:.5rem;
+}
+.price-lbl{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:#90A4AE;display:block;margin-bottom:.15rem;}
+.price-val{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:.04em;color:#F5C842;line-height:1;}
+.price-val.dim{font-size:1.2rem;color:#90A4AE;}
+.price-tag-hot{
+  display:inline-flex;align-items:center;gap:.3rem;
+  background:rgba(197,48,48,.15);border:1px solid rgba(254,178,178,.4);
+  color:#FC8181;font-size:.72rem;font-weight:600;
+  padding:.3em .8em;border-radius:20px;white-space:nowrap;
+}
+.price-tag-hot::before{content:'★';}
+
+/* ── TAGLINE ── */
+.tagline{
+  font-size:.88rem;color:#4A5568;line-height:1.7;
+  padding:1rem 1.1rem;border-bottom:1px dashed #D0D8E8;
+}
+
+/* ── SPECS SECTION ── */
+.spec-section{padding:.9rem 1.1rem;}
+.spec-section+.spec-section{border-top:1px solid #E8ECF4;padding-top:.9rem;}
+
+.spec-title{
+  font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;
+  color:#718096;margin-bottom:.65rem;
+  display:flex;align-items:center;gap:.5rem;
+}
+.spec-title::after{content:'';flex:1;height:1px;background:#E8ECF4;}
+
+.spec-list{display:flex;flex-direction:column;gap:0;}
+.spec-row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  gap:.75rem;padding:.45rem .3rem;
+  border-bottom:1px solid #F0F3F8;
+  transition:background .15s;
+}
+.spec-row:last-child{border-bottom:none;}
+.spec-row:active{background:#F7FAFF;}
+.sk{font-size:.78rem;color:#718096;font-weight:500;flex-shrink:0;max-width:45%;}
+.sv{font-size:.88rem;color:#1A202C;font-weight:600;text-align:right;flex:1;}
+
+/* ── HIGHLIGHT ROW ── */
+.spec-row.highlight-row{background:#FFFBEB;border-radius:6px;border:none;margin:.2rem 0;}
+.spec-row.highlight-row .sv{color:#B7791F;}
+
+/* ── VARIANT TABLE (mobile) ── */
+.variant-cards{display:flex;flex-direction:column;gap:.5rem;margin-top:.3rem;}
+.variant-card{
+  border:1px solid #D0D8E8;border-radius:8px;padding:.7rem .9rem;
+  background:#FAFBFD;
+}
+.vc-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.3rem;}
+.vc-name{font-size:.88rem;font-weight:700;color:#1A202C;}
+.vc-price{font-size:.95rem;font-weight:700;color:#B7791F;font-family:'Bebas Neue',sans-serif;letter-spacing:.04em;}
+.vc-specs{font-size:.78rem;color:#4A5568;line-height:1.6;}
+.vc-specs span{display:inline-block;margin-right:.8rem;}
+
+/* ── PROMO LIST ── */
+.promo-list{display:flex;flex-direction:column;gap:.4rem;margin-top:.3rem;}
+.promo-item{
+  display:flex;gap:.5rem;font-size:.83rem;color:#276749;
+  background:#F0FFF4;border:1px solid #9AE6B4;
+  border-radius:8px;padding:.5rem .75rem;line-height:1.5;
+}
+.promo-item::before{content:'✓';font-weight:700;flex-shrink:0;}
+
+/* ── INFO BOX ── */
+.info-box{
+  margin:.5rem 0;padding:.7rem .9rem;
+  background:#EBF8FF;border-left:3px solid #3182CE;
+  border-radius:4px;font-size:.82rem;color:#2C5282;line-height:1.6;
+}
+
+/* ── COMING SOON BANNER ── */
+.coming-banner{
+  display:flex;align-items:center;gap:.5rem;
+  background:#FFFBEB;border:1px solid #F6E05E;
+  border-radius:8px;padding:.6rem .9rem;margin:.3rem 0;
+  font-size:.83rem;color:#92400E;font-weight:600;
+}
+.coming-banner::before{content:'⏳';}
+
+/* ── SUMMARY CARDS (mobile-friendly) ── */
+.sum-card{
+  background:#fff;border:1px solid #D0D8E8;border-radius:10px;
+  padding:.85rem 1rem;margin-bottom:.6rem;
+  display:flex;flex-direction:column;gap:.4rem;
+  box-shadow:0 1px 4px rgba(0,0,0,.05);
+  opacity:0;transform:translateY(14px);
+  transition:opacity .4s ease,transform .4s ease;
+}
+.sum-card.visible{opacity:1;transform:none;}
+.sum-card.dim-sum.visible{opacity:.6;}
+.sum-top{display:flex;align-items:center;gap:.6rem;}
+.sum-brand{
+  font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.05em;
+  padding:.15em .6em;border-radius:5px;border:1.5px solid;flex-shrink:0;
+}
+.sum-model{font-size:.9rem;font-weight:700;color:#1A202C;flex:1;line-height:1.3;}
+.sum-mid{font-size:.82rem;color:#4A5568;line-height:1.5;padding-left:.1rem;}
+.sum-bot{display:flex;align-items:center;justify-content:space-between;gap:.5rem;flex-wrap:wrap;}
+.sum-price{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.04em;color:#B7791F;}
+.sum-price.na{font-family:'Sarabun',sans-serif;font-size:.82rem;color:#718096;font-weight:400;}
+
+/* ── FOOTER ── */
+footer{
+  background:#111820;color:#4A6080;text-align:center;
+  padding:2rem 1rem;font-size:.72rem;line-height:1.8;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(14px);}
+  to{opacity:1;transform:none;}
+}
+@keyframes popIn{
+  0%{transform:scale(.85);opacity:0;}
+  70%{transform:scale(1.03);}
+  100%{transform:scale(1);opacity:1;}
+}
+.pulse{
+  display:inline-block;width:7px;height:7px;border-radius:50%;
+  background:#22C55E;vertical-align:middle;margin-right:4px;
+  animation:pulse-anim 1.8s infinite;
+}
+@keyframes pulse-anim{
+  0%{box-shadow:0 0 0 0 rgba(34,197,94,.5);}
+  70%{box-shadow:0 0 0 6px rgba(34,197,94,0);}
+  100%{box-shadow:0 0 0 0 rgba(34,197,94,0);}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-tag">Bangkok International Motor Show · ครั้งที่ 47</div>
+  <h1 class="hero-title">MOTOR<span>SHOW 2026</span></h1>
+  <p class="hero-meta">Challenger Hall เมืองทองธานี<br>รวมรถเปิดตัวทุกแบรนด์ที่ต้องจับตา</p>
+  <div class="hero-date-badge">📅 25 มีนาคม – 5 เมษายน 2569</div>
+</header>
+
+<!-- BRAND NAV -->
+<nav class="brand-nav" aria-label="เลือกแบรนด์">
+  <a href="#deepal" class="brand-pill" style="color:#1A73E8;border-color:#1A73E8;background:rgba(26,115,232,.1);">DEEPAL</a>
+  <a href="#kia"    class="brand-pill" style="color:#BB162B;border-color:#BB162B;background:rgba(187,22,43,.1);">KIA</a>
+  <a href="#mazda"  class="brand-pill" style="color:#0080C5;border-color:#0080C5;background:rgba(0,128,197,.1);">MAZDA</a>
+  <a href="#gwm"    class="brand-pill" style="color:#CC0000;border-color:#CC0000;background:rgba(204,0,0,.1);">GWM</a>
+  <a href="#ford"   class="brand-pill" style="color:#1B6EC2;border-color:#1B6EC2;background:rgba(27,110,194,.1);">FORD</a>
+</nav>
+
+<div class="page">
+
+  <div class="sec-lbl"><span class="pulse"></span> รถเปิดตัว / ประกาศราคา ในงาน Motor Show 2026</div>
+
+  <!-- ══════════════════════════════ -->
+  <!-- 1. DEEPAL                      -->
+  <!-- ══════════════════════════════ -->
+  <div id="deepal" class="brand-card" style="--bc:#1A73E8;--bt:#EEF4FD;--bta:#DBEAFE;">
+    <div class="card-header" onclick="toggle(this)">
+      <div class="card-brand-name" style="color:#1A73E8;">DEEPAL</div>
+      <div class="card-info">
+        <div class="card-model">NEVO Q05 (DEEPAL S03)</div>
+        <div class="card-sub">EV Crossover · ผลิตในไทย</div>
+      </div>
+      <span class="card-chevron">▾</span>
+    </div>
+    <div class="badges-row">
+      <span class="bdg bdg-ev">100% EV</span>
+      <span class="bdg bdg-red">เปิดราคาในงาน</span>
+    </div>
+    <div class="card-body">
+      <div class="price-banner">
+        <div><span class="price-lbl">ราคาคาดการณ์</span><div class="price-val">~5xx,xxx ฿</div></div>
+        <div class="price-tag-hot">เปิดราคาในงาน Motor Show</div>
+      </div>
+      <p class="tagline">ครอสโอเวอร์ไฟฟ้าใหม่จาก Changan ผลิตในไทย ดีไซน์ Digital Smart Wing 2.0 ค่าต้านลม Cd 0.265 เปิดตัวครั้งแรก Motor Show 2026 มาพร้อม 2 ขนาดแบตเตอรี่ให้เลือก</p>
+
+      <div class="spec-section">
+        <div class="spec-title">ตัวถังและมิติ</div>
+        <div class="spec-list">
+          <div class="spec-row"><span class="sk">ขนาดตัวถัง (ย×ก×ส)</span><span class="sv">4,435 × 1,855 × 1,600 มม.</span></div>
+          <div class="spec-row"><span class="sk">ระยะฐานล้อ</span><span class="sv">2,735 มม.</span></div>
+          <div class="spec-row"><span class="sk">น้ำหนักรถ</span><span class="sv">1,870–1,950 กก. (ตามรุ่น)</span></div>
+          <div class="spec-row"><span class="sk">ค่าต้านลม</span><span class="sv">Cd 0.265</span></div>
+          <div class="spec-row"><span class="sk">ห้องสัมภาระ</span><span class="sv">540 ลิตร / พับ 1,380 ลิตร</span></div>
+          <div class="spec-row"><span class="sk">ช่องเก็บใต้ท้าย</span><span class="sv">90 ลิตร</span></div>
+        </div>
+      </div>
+
+      <div class="spec-section">
+        <div class="spec-title">ขุมพลัง — 2 รุ่น (มอเตอร์ FWD เหมือนกัน)</div>
+        <div class="spec-list">
+          <div class="spec-row"><span class="sk">กำลังมอเตอร์</span><span class="sv">120 kW / 161 แรงม้า</span></div>
+          <div class="spec-row"><span class="sk">แรงบิด</span><span class="sv">190 Nm</span></div>
+          <div class="spec-row"><span class="sk">ความเร็วสูงสุด</span><span class="sv">160 กม./ชม.</span></div>
+          <div class="spec-row highlight-row"><span class="sk">Standard — 40.3 kWh (LFP · CATL)</span><span class="sv">370 กม. (NEDC)</span></div>
+          <div class="spec-row highlight-row"><span class="sk">Long Range — 51.9 kWh (LFP · CATL)</span><span class="sv">475 กม. (NEDC)</span></div>
+          <div class="spec-row"><span class="sk">การชาร์จ</span><span class="sv">3C Fast Charge รองรับ</span></div>
+        </div>
+      </div>
+
+      <div class="spec-section">
+        <div class="spec-title">เทคโนโลยีและอุปกรณ์</div>
+        <div class="spec-list">
+          <div class="spec-row"><span class="sk">จอ Infotainment</span><span class="sv">15.6 นิ้ว · ความละเอียด 2.5K (รุ่น Top)</span></div>
+          <div class="spec-row"><span class="sk">จอมาตรวัดดิจิทัล</span><span class="sv">10.17 นิ้ว</span></div>
+          <div class="spec-row"><span class="sk">ชิปประมวลผล</span><span class="sv">4 นาโนเมตร · RAM 24 GB</span></div>
+          <div class="spec-row"><span class="sk">ไฟบรรยากาศ</span><span class="sv">256 เฉดสี</span></div>
+          <div class="spec-row"><span class="sk">เบาะคู่หน้า</span><span class="sv">ปรับไฟฟ้า + นวด · เบาะโดยสารปรับเอน 165° + รองน่อง (Queen's Seat)</span></div>
+          <div class="spec-row"><span class="sk">หลังคากระจก</span><span class="sv">Panoramic Sunroof (รุ่น Top)</span></div>
+          <div class="spec-row"><span class="sk">ฝาท้าย</span><span class="sv">เปิด-ปิดไฟฟ้า</span></div>
+          <div class="spec-row"><span class="sk">เบรกมือ</span><span class="sv">EPB + Auto Hold</span></div>
+          <div class="spec-row"><span class="sk">เชื่อมต่อ</span><span class="sv">5G · Wireless Charger · Apple CarPlay / HiCar</span></div>
+          <div class="spec-row"><span class="sk">ช่องเก็บของ</span><span class="sv">30 จุดรอบคัน</span></div>
+          <div class="spec-row"><span class="sk">สีห้องโดยสาร</span><span class="sv">Jade White · Black Jade</span></div>
+        </div>
+      </div>
+
+      <div class="spec-section">
+        <div class="spec-title">ความปลอดภัย (ADAS)</div>
+        <div class="spec-list">
+          <div class="spec-row"><span class="sk">ระบบ Keyless</span><span class="sv">Keyless Entry · Bluetooth Key</span></div>
+          <div class="spec-row"><span class="sk">ADAS</span><span class="sv">RCW เตือนรถชนด้านหลัง · BSD จุดอับสายตา · RCTA / RCTB เตือนขณะถอย · LCA เตือนเปลี่ยนเลน</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════ -->
+  <!-- 2. KIA                         -->
+  <!-- ══════════════════════════════ -->
+  <div id="kia" class="brand-card" style="--bc:#BB162B;--bt:#FFF5F5;--bta:#FED7D7;">
+    <div class="card-header" onclick="toggle(this)">
+      <div class="card-brand-name" style="color:#BB162B;">KIA</div>
+      <div class="card-info">
+        <div class="card-model">Carnival HEV · EV5 + Deal พิเศษ</div>
+        <div class="card-sub">MPV Hybrid · Electric SUV</div>
+      </div>
+      <span class="card-chevron">▾</span>
+    </div>
+    <div class="badges-row">
+      <span class="bdg bdg-hev">HEV</span>
+      <span class="bdg bdg-ev">100% EV</span>
+      <span class="bdg bdg-red">Deal พิเศษ</span>
+    </div>
+    <div class="card-body">
+      <div class="price-banner">
+        <div>
+          <span class="price-lbl">Carnival HEV ราคา</span>
+          <div class="price-val" style="font-size:1.3rem;">2,499,000–2,699,000 ฿</div>
+        </div>
+        <div class="price-tag-hot">Motor Show Deal ลด 595K ฿</div>
+      </div>
+      <p class="tagline">Kia นำ Carnival HEV รุ่นใหม่ 7 ที่นั่ง และ EV5 ทั้ง 5 รุ่นย่อย มาโชว์ในงาน พร้อมโปรโมชันที่ไม่เคยมีมาก่อน</p>
+
+      <!-- Carnival HEV -->
+      <div class="spec-section">
+        <div class="spec-title">Carnival HEV 7 ที่นั่ง</div>
+        <div class="spec-list">
+          <div class="spec-row"><span class="sk">ขนาดตัวถัง</span><span class="sv">5,155 × 1,995 × 1,785 มม.</span></div>
+          <div class="spec-row"><span class="sk">ระยะฐานล้อ</span><span class="sv">3,090 มม.</span></div>
+          <div class="spec-row"><span class="sk">ระบบขับเคลื่อน</span><span class="sv">Hybrid (HEV) นำเข้ามาเลเซีย</span></div>
+          <div class="spec-row"><span class="sk">รุ่น Premium</span><span class="sv">2,499,000 ฿</span></div>
+          <div class="spec-row"><span class="sk">รุ่น Luxury</span><span class="sv">2,699,000 ฿</span></div>
+          <div class="spec-row"><span class="sk">รับประกันรถ</span><span class="sv">7 ปี / 150,000 กม.</span></div>
+          <div class="spec-row"><span class="sk">รับประกันแบต</span><span class="sv">8 ปี / 160,000 กม.</span></div>
+          <div class="spec-row"><span class="sk">สีให้เลือก</span><span class="sv">White Pearl · Jet Black · Meteor Grey · Astra Blue</span></div>
+        </div>
+      </div>
+
+      <!-- EV5 -->
+      <div class="spec-section">
+        <div class="spec-title">Kia EV5 — SUV ไฟฟ้า 5 รุ่นย่อย</div>
+        <div class="spec-list" style="margin-bottom:.8rem;">
+          <div class="spec-row"><span class="sk">ขนาดตัวถัง</span><span class="sv">4,615 × 1,875 × 1,715 มม.</span></div>
+          <div class="spec-row"><span class="sk">ระยะฐานล้อ</span><span class="sv">2,750 มม.</span></div>
+          <div class="spec-row"><span class="sk">ห้องสัมภาระ</span><span class="sv">513 ลิตร</span></div>
+          <div class="spec-row"><span class="sk">จอ Infotainment</span><span class="sv">Panoramic Wide Display 29.6 นิ้ว</span></div>
+          <div class="spec-row"><span class="sk">หลังคา</span><span class="sv">Panoramic Sunroof + ม่านบังแดดไฟฟ้า (ตั้งแต่รุ่น Air)</span></div>
+          <div class="spec-row"><span class="sk">V2L / V2G</span><span class="sv">รองรับทั้งคู่ · จ่ายไฟให้อุปกรณ์ภายนอกได้</span></div>
+          <div class="spec-row"><span class="sk">แพลตฟอร์ม</span><span class="sv">E-GMP · CBU จีน</span></div>
+          <div class="spec-row"><span class="sk">รับประกันรถ</span><span class="sv">7 ปี / 150,000 กม. + ฉุกเฉิน 24 ชม. 7 ปี</span></div>
+          <div class="spec-row"><span class="sk">รับประกันแบต</span><span class="sv">8 ปี / 160,000 กม.</span></div>
+        </div>
+        <div class="variant-cards">
+          <div class="variant-card">
+            <div class="vc-head"><span class="vc-name">EV5 Light</span><span class="vc-price">1,249,000 ฿</span></div>
+            <div class="vc-specs"><span>64.2 kWh LFP</span><span>FWD</span><span>217 แรงม้า · 310 Nm</span><span>490 กม. (NEDC)</span><span>0-100: 8.5 วิ</span></div>
+          </div>
+          <div class="variant-card">
+            <div class="vc-head"><span class="vc-name">EV5 Air</span><span class="vc-price">1,399,000 ฿</span></div>
+            <div class="vc-specs"><span>64.2 kWh LFP</span><span>FWD</span><span>217 แรงม้า · 310 Nm</span><span>490 กม. (NEDC)</span><span>+ Sunroof · Wireless Charger · ADAS Full</span></div>
+          </div>
+          <div class="variant-card">
+            <div class="vc-head"><span class="vc-name">EV5 Earth Long Range</span><span class="vc-price">1,599,000 ฿</span></div>
+            <div class="vc-specs"><span>88.1 kWh LFP</span><span>FWD</span><span>217 แรงม้า · 310 Nm</span><span>665 กม. (NEDC)</span><span>ชาร์จ DC 141 kW</span></div>
+          </div>
+          <div class="variant-card">
+            <div class="vc-head"><span class="vc-name">EV5 Earth Exclusive AWD</span><span class="vc-price">1,699,000 ฿</span></div>
+            <div class="vc-specs"><span>88.1 kWh LFP</span><span>AWD</span><span>308 แรงม้า · 408 Nm</span><span>555 กม. (NEDC)</span><span>+ นวดหลัง · Harman Kardon 8 จุด</span></div>
+          </div>
+          <div class="variant-card">
+            <div class="vc-head"><span class="vc-name">EV5 GT-Line AWD</span><span class="vc-price">1,749,000 ฿</span></div>
+            <div class="vc-specs"><span>88.1 kWh LFP</span><span>AWD</span><span>308 แรงม้า · 408 Nm</span><span>555 กม. (NEDC)</span><span>+ สปอร์ตดีไซน์ GT-Line</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Motor Show Promos -->
+      <div class="spec-section">
+        <div class="spec-title">โปรโมชัน Motor Show 2026</div>
+        <div class="promo-list">
+          <div class="promo-item">Carnival Diesel SXL ลดเหลือ <strong>1,999,000 ฿</strong> (จาก 2,594,000 ฿) เฉพาะสี Astra Blue</div>
+          <div class="promo-item">ดอกเบี้ยพิเศษ Carnival HEV เริ่มต้น 1.77%</div>
+          <div class="promo-item">ฟรีประกันคุณภาพรถ 7 ปี ทุกรุ่น</div>
+          <div class="promo-item">EV5 ทุกรุ่น — Kia ช่วยผ่อนคนละครึ่ง 5 เดือน</div>
+          <div class="promo-item">ฟรี KIA Home Charger + ค่าติดตั้ง (EV5)</div>
+          <div class="promo-item">ฟรีประกันภัยชั้น 1 นาน 1 ปี (EV5)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════ -->
+  <!-- 3. MAZDA 6e                    -->
+  <!-- ══════════════════════════════ -->
+  <div id="mazda" class="brand-card" style="--bc:#0080C5;--bt:#EBF8FF;--bta:#BEE3F8;">
+    <div class="card-header" onclick="toggle(this)">
+      <div class="card-brand-name" style="color:#0080C5;">MAZDA</div>
+      <div class="card-info">
+        <div class="card-model">Mazda 6e</div>
+        <div class="card-sub">Electric Fastback Sedan · เปิดตัวครั้งแรกในไทย</div>
+      </div>
+      <span class="card-chevron">▾</span>
+    </div>
+    <div class="badges-row">
+      <span class="bdg bdg-ev">100% EV · Sedan</span>
+      <span class="bdg bdg-red">เปิดราคาในงาน</span>
+    </div>
+    <div class="card-body">
+      <div class="price-banner">
+        <div><span class="price-lbl">ราคาคาดการณ์ (ไทย)</span><div class="price-val">1.3–1.5 ล้าน ฿</div></div>
+        <div class="price-tag-hot">เปิดราคา 23 มี.ค. 2569</div>
+      </div>
+      <p class="tagline">ซีดานไฟฟ้า Fastback รุ่นแรกของมาสด้า "Electrified Perfection in Oneness" นำเข้า CBU จากจีน — ยอดจองทะลุ 4,000 คันก่อนเปิดราคา</p>
+
+      <div class="spec-section">
+        <div class="spec-title">ตัวถังและมิติ</div>
+        <div class="spec-list">
+          <div class="spec-row"><span class="sk">ขนาดตัวถัง (ย×ก×ส)</span><span class="sv">4,921 × 1,890 × 1,491 มม.</span></div>
+          <div class="spec-row"><span class="sk">ระยะฐานล้อ</span><span class="sv">2,895 มม.</span></div>
+          <div class="spec-row"><span class="sk">รุ่นย่อย</span><span class="sv">Premium · Exclusive</span></div>
+        </div>
+      </div>
+
+      <div class="spec-section">
+        <div class="spec-title">ขุมพลังและสมรรถนะ</div>
+        <div class="spec-list">
+          <div class="spec-row"><span class="sk">มอเตอร์ / ขับเคลื่อน</span><span class="sv">258 แรงม้า / RWD (ล้อหลัง)</span></div>
+          <div class="spec-row"><span class="sk">แรงบิด</span><span class="sv">290 Nm</span></div>
+          <div class="spec-row"><span class="sk">แบตเตอรี่</span><span class="sv">LFP 77.9 kWh</span></div>
+          <div class="spec-row highlight-row"><span class="sk">ระยะวิ่ง</span><span class="sv">654 กม. (NEDC)</span></div>
+          <div class="spec-row"><span class="sk">0–100 กม./ชม.</span><span class="sv">8.0 วินาที</span></div>
+          <div class="spec-row"><span class="sk">ความเร็วสูงสุด</span><span class="sv">175 กม./ชม.</span></div>
+          <div class="spec-row"><span class="sk">ชาร์จ AC / DC</span><span class="sv">11 kW / สูงสุด 194 kW</span></div>
+          <div class="spec-row"><span class="sk">ชาร์จ 30–80%</span><span class="sv">ประมาณ 15 นาที (เครื่องชาร์จ 200 kW+)</span></div>
+        </div>
+      </div>
+
+      <div class="spec-section">
+        <div class="spec-title">อุปกรณ์และฟีเจอร์เด่น</div>
+        <div class="spec-list">
+          <div class="spec-row"><span class="sk">หลังคา</span><span class="sv">Panoramic Roof Fixed + ม่านบังแดดไฟฟ้า</span></div>
+          <div class="spec-row"><span class="sk">สปอยเลอร์</span><span class="sv">Electric Rear Spoiler ยกอัตโนมัติตามความเร็ว</span></div>
+          <div class="spec-row"><span class="sk">ประตู</span><span class="sv">Frameless Doors (ไม่มีกรอบกระจก)</span></div>
+          <div class="spec-row"><span class="sk">AR HUD</span><span class="sv">50 นิ้ว Head-up Display</span></div>
+          <div class="spec-row"><span class="sk">ไฟบรรยากาศ</span><span class="sv">64 สี</span></div>
+          <div class="spec-row"><span class="sk">เบาะหนัง</span><span class="sv">Premium = Nappa สีดำ · Exclusive = Nappa Suede สีแทน</span></div>
+          <div class="spec-row"><span class="sk">เบาะ Ventilated</span><span class="sv">ระบายอากาศ + อุ่นเบาะ</span></div>
+          <div class="spec-row"><span class="sk">ล้ออัลลอย</span><span class="sv">19 นิ้ว Five-Spoke</span></div>
+          <div class="spec-row"><span class="sk">ยาง</span><span class="sv">Michelin e-Primacy 245/45 R19</span></div>
+          <div class="spec-row"><span class="sk">ระบบเสียง</span><span class="sv">SONY 14 ลำโพง · ลำโพงในหมอนรองศีรษะ · Gesture Control</span></div>
+          <div class="spec-row"><span class="sk">จอ Infotainment</span><span class="sv">Touchscreen 14.6 นิ้ว · Apple CarPlay / Android Auto ไร้สาย · Voice 9 ภาษา</span></div>
+          <div class="spec-row"><span class="sk">Bluetooth Key</span><span class="sv">แชร์ได้สูงสุด 3 เครื่อง</span></div>
+          <div class="spec-row"><span class="sk">Scenario Mode</span><span class="sv">Relax Mode · Pet Mode (Leaving Mode)</span></div>
+          <div class="spec-row"><span class="sk">สีภายนอก (6 สี)</span><span class="sv">Soul Red Crystal · Melting Copper · Machine Grey · Crystal White Pearl · และอีก 2 สี (ประกาศในงาน Motor Show)</span></div>
+          <div class="spec-row"><span class="sk">สีห้องโดยสาร</span><span class="sv">ดำ-น้ำตาล (Exclusive) · ดำ (Premium)</span></div>
+        </div>
+      </div>
+
+      <div class="spec-section">
+        <div class="spec-title">ความปลอดภัย</div>
+        <div class="spec-list">
+          <div class="spec-row"><span class="sk">ถุงลมนิรภัย</span><span class="sv">9 ตำแหน่ง</span></div>
+          <div class="spec-row"><span class="sk">กล้องรอบคัน</span><span class="sv">360° + See-through View · Side View</span></div>
+          <div class="spec-row"><span class="sk">ADAS</span><span class="sv">DSC · TCS · HLA · ESS · LAS · LDP · ELK · HBC · DMS (เตือนผู้ขับเหนื่อยล้า)</span></div>
+          <div class="spec-row"><span class="sk">แอปพลิเคชัน</span><span class="sv">MAZDA 6e APP — Remote Control · Real-time Status · ตั้งเวลาชาร์จ</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════ -->
+  <!-- 4. MAZDA CX-6e (ยังไม่เข้าไทย) -->
+  <!-- ══════════════════════════════ -->
+  <div class="brand-card dim-card" style="--bc:#5A9EC9;--bt:#F4F8FC;--bta:#E2EEF8;">
+    <div class="card-header" onclick="toggle(this)">
+      <div class="card-brand-name" style="color:#5A9EC9;">MAZDA</div>
+      <div class="card-info">
+        <div class="card-model">Mazda CX-6e</div>
+        <div class="card-sub">EV SUV Crossover · ยังไม่เปิดตัวในไทย</div>
+      </div>
+      <span class="card-chevron">▾</span>
+    </div>
+    <div class="badges-row">
+      <span class="bdg bdg-ev">100% EV · SUV</span>
+      <span class="bdg bdg-yellow">ยังไม่เข้าไทย</span>
+    </div>
+    <div class="card-body">
+      <div class="price-banner" style="background:linear-gradient(135deg,#2D3748,#4A5568);">
+        <div><span class="price-lbl">ราคายุโรป (เริ่มต้น)</span><div class="price-val dim">~49,990 EUR</div></div>
+        <div class="coming-banner" style="background:rgba(246,224,94,.15);border-color:rgba(246,224,94,.3);color:#F6E05E;">ยังไม่เข้าไทย</div>
+      </div>
+      <p class="tagline">SUV ไฟฟ้าจาก Mazda พัฒนาบนแพลตฟอร์มเดียวกับ Deepal S07 เปิดตัวยุโรปต้นปี 2026 ยังไม่มีกำหนดเข้าไทยอย่างเป็นทางการ</p>
+      <div class="spec-section">
+        <div class="info-box">⚠ <strong>แตกต่างจาก Mazda 6e</strong><br>6e = ซีดาน Fastback → <strong>เปิดตัวแล้ว Motor Show 2026</strong><br>CX-6e = SUV Crossover → ยังรอแผนไทย</div>
+        <div class="spec-title" style="margin-top:.8rem;">สเปกยุโรป</div>
+        <div class="spec-list">
+          <div class="spec-row"><span class="sk">ขนาดตัวถัง</span><span class="sv">4,850 × 1,935 × 1,620 มม.</span></div>
+          <div class="spec-row"><span class="sk">ระยะฐานล้อ</span><span class="sv">2,902 มม.</span></div>
+          <div class="spec-row"><span class="sk">กำลัง / ขับเคลื่อน</span><span class="sv">255 แรงม้า / RWD</span></div>
+          <div class="spec-row"><span class="sk">แรงบิด</span><span class="sv">290 Nm</span></div>
+          <div class="spec-row"><span class="sk">แบตเตอรี่</span><span class="sv">LFP 78 kWh</span></div>
+          <div class="spec-row highlight-row"><span class="sk">ระยะวิ่ง (WLTP)</span><span class="sv">484 กม.</span></div>
+          <div class="spec-row"><span class="sk">ชาร์จ DC</span><span class="sv">195 kW · 10–80% ใน 24 นาที</span></div>
+          <div class="spec-row"><span class="sk">Frunk / ห้องสัมภาระ</span><span class="sv">126 ล. / 350 ล. (พับ 2,036 ล.)</span></div>
+          <div class="spec-row"><span class="sk">จุดเด่น</span><span class="sv">จอ 26.45" · AR-HUD 100" · Dolby Atmos 23 ลำโพง · OLED Mirror</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════ -->
+  <!-- 5. GWM                         -->
+  <!-- ══════════════════════════════ -->
+  <div id="gwm" class="brand-card" style="--bc:#CC0000;--bt:#FFF5F5;--bta:#FED7D7;">
+    <div class="card-header" onclick="toggle(this)">
+      <div class="card-brand-name" style="color:#CC0000;">GWM</div>
+      <div class="card-info">
+        <div class="card-model">ORA 5 HEV · ORA 5 EV + Secret Model</div>
+        <div class="card-sub">World Premiere — ครั้งแรกของโลกที่ไทย</div>
+      </div>
+      <span class="card-chevron">▾</span>
+    </div>
+    <div class="badges-row">
+      <span class="bdg bdg-hev">HEV</span>
+      <span class="bdg bdg-ev">EV</span>
+      <span class="bdg bdg-red">เปิดราคาในงาน</span>
+    </div>
+    <div class="card-body">
+      <div class="price-banner">
+        <div><span class="price-lbl">ราคา</span><div class="price-val dim">ประกาศในงาน</div></div>
+        <div class="price-tag-hot">World Premiere ครั้งแรกของโลก</div>
+      </div>
+      <p class="tagline">GWM เปิดตัว ORA 5 HEV เป็นครั้งแรกของโลกที่ไทย ควบคู่ ORA 5 EV และ "Secret Model" — ตัวถังขนาดเดียวกัน 2 ขุมพลัง</p>
+
+      <div class="spec-section">
+        <div class="spec-title">ตัวถังและมิติ (ทั้ง HEV และ EV)</div>
+        <div class="spec-list">
+          <div class="spec-row"><span class="sk">ขนาดตัวถัง (ย×ก×ส)</span><span class="sv">4,417 × 1,833 × 1,641 มม.</span></div>
+          <div class="spec-row"><span class="sk">ระยะฐานล้อ</span><span class="sv">2,720 มม.</span></div>
+          <div class="spec-row"><span class="sk">ระยะต่ำสุดถึงพื้น</span><span class="sv">175 มม.</span></div>
+          <div class="spec-row"><span class="sk">ห้องสัมภาระ</span><span class="sv">377 ลิตร</span></div>
+          <div class="spec-row"><span class="sk">รุ่นย่อย</span><span class="sv">Pro · Ultra (ทั้ง 2 ขุมพลัง)</span></div>
+          <div class="spec-row"><span class="sk">สี HEV (3 สี)</span><span class="sv">Onyx Black · Ivory White · Mountain Grey — ภายใน Dark Grey</span></div>
+          <div class="spec-row"><span class="sk">สี EV (4 สี + หลังคาดำ)</span><span class="sv">Ivory White · Mountain Grey · Emerald Green · So Blue — ภายใน Brown Beige หรือ Dark Grey</span></div>
+        </div>
+      </div>
+
+      <div class="spec-section">
+        <div class="spec-title">ORA 5 HEV — World Premiere · เปิดครั้งแรกของโลกที่ไทย</div>
+        <div class="spec-list">
+          <div class="spec-row"><span class="sk">เครื่องยนต์</span><span class="sv">เบนซินเทอร์โบ 1.5L · 150 แรงม้า · 240 Nm</span></div>
+          <div class="spec-row"><span class="sk">มอเตอร์ไฟฟ้า</span><span class="sv">190 แรงม้า · 236 Nm</span></div>
+          <div class="spec-row highlight-row"><span class="sk">กำลังรวม</span><span class="sv">223 แรงม้า</span></div>
+          <div class="spec-row highlight-row"><span class="sk">แรงบิดรวม</span><span class="sv">476 Nm</span></div>
+          <div class="spec-row"><span class="sk">เกียร์</span><span class="sv">DHT-HEV 2-Speed Direct Drive</span></div>
+          <div class="spec-row"><span class="sk">0–100 กม./ชม.</span><span class="sv">7.7 วินาที</span></div>
+          <div class="spec-row"><span class="sk">ความเร็วสูงสุด</span><span class="sv">180 กม./ชม.</span></div>
+          <div class="spec-row"><span class="sk">อัตราสิ้นเปลือง</span><span class="sv">23.3 กม./ลิตร (ECO Sticker)</span></div>
+          <div class="spec-row"><span class="sk">ถังน้ำมัน / ระยะรวม</span><span class="sv">55 ลิตร · วิ่งได้ 1,000+ กม./ถัง</span></div>
+          <div class="spec-row"><span class="sk">ระบบแบตเตอรี่</span><span class="sv">แบตไฮบริด 1.09 kWh · Liquid Cooling</span></div>
+        </div>
+      </div>
+
+      <div class="spec-section">
+        <div class="spec-title">ORA 5 EV — ไฟฟ้า 100%</div>
+        <div class="spec-list">
+          <div class="spec-row"><span class="sk">มอเตอร์ / ขับเคลื่อน</span><span class="sv">204 แรงม้า (150 kW) / FWD</span></div>
+          <div class="spec-row"><span class="sk">แรงบิด</span><span class="sv">260 Nm</span></div>
+          <div class="spec-row"><span class="sk">แบตเตอรี่</span><span class="sv">LFP 58.3 kWh (Short Blade Battery)</span></div>
+          <div class="spec-row highlight-row"><span class="sk">ระยะวิ่ง</span><span class="sv">520 กม. (NEDC)</span></div>
+          <div class="spec-row"><span class="sk">0–100 กม./ชม.</span><span class="sv">7.5 วินาที</span></div>
+          <div class="spec-row"><span class="sk">ความเร็วสูงสุด</span><span class="sv">170 กม./ชม.</span></div>
+          <div class="spec-row"><span class="sk">ชาร์จ DC / AC</span><span class="sv">120 kW / 6.6 kW</span></div>
+          <div class="spec-row"><span class="sk">ชาร์จ 30–80%</span><span class="sv">ประมาณ 20 นาที (DC)</span></div>
+          <div class="spec-row"><span class="sk">V2L (จ่ายไฟออก)</span><span class="sv">6 kW</span></div>
+        </div>
+      </div>
+
+      <div class="spec-section">
+        <div class="spec-title">อุปกรณ์และเทคโนโลยี</div>
+        <div class="spec-list">
+          <div class="spec-row"><span class="sk">จอ Infotainment</span><span class="sv">14.6 นิ้ว · ระบบ Coffee OS 3.0</span></div>
+          <div class="spec-row"><span class="sk">จอมาตรวัด</span><span class="sv">10.25 นิ้ว</span></div>
+          <div class="spec-row"><span class="sk">ลำโพง</span><span class="sv">Pro = 6 จุด · Ultra = 9 จุด (Amor)</span></div>
+          <div class="spec-row"><span class="sk">Wireless Charger</span><span class="sv">50W (รุ่น Ultra)</span></div>
+          <div class="spec-row"><span class="sk">เบาะคนขับ</span><span class="sv">ปรับไฟฟ้า 6 ทิศทาง</span></div>
+          <div class="spec-row"><span class="sk">เบาะผู้โดยสารหน้า</span><span class="sv">ปรับไฟฟ้า 4 ทิศทาง</span></div>
+          <div class="spec-row"><span class="sk">เบาะหลัง</span><span class="sv">พับได้แบบ 60:40</span></div>
+          <div class="spec-row"><span class="sk">วัสดุหุ้มเบาะ</span><span class="sv">หนังสังเคราะห์</span></div>
+          <div class="spec-row"><span class="sk">กระจกมองหลัง</span><span class="sv">ตัดแสงอัตโนมัติ (Auto-dimming)</span></div>
+          <div class="spec-row"><span class="sk">ช่องแอร์หลัง</span><span class="sv">มี · ช่องเก็บความเย็น 3.2 ลิตร</span></div>
+          <div class="spec-row"><span class="sk">USB</span><span class="sv">ด้านหน้าและหลัง</span></div>
+          <div class="spec-row"><span class="sk">กล้องรอบคัน</span><span class="sv">360° + Body Transparent (เห็นใต้ท้องรถ)</span></div>
+          <div class="spec-row"><span class="sk">ไฟหน้า</span><span class="sv">LED อัจฉริยะ ปรับสูง-ต่ำอัตโนมัติ + Follow Me Home</span></div>
+          <div class="spec-row"><span class="sk">ล้ออัลลอย</span><span class="sv">18 นิ้ว สีดำ</span></div>
+        </div>
+      </div>
+
+      <div class="spec-section">
+        <div class="spec-title">ระบบความปลอดภัย ADAS 18 ระบบ</div>
+        <div class="spec-list">
+          <div class="spec-row"><span class="sk">ระบบหลัก</span><span class="sv">AEB เบรกฉุกเฉิน · FCW เตือนชนด้านหน้า · LDW เตือนออกนอกเลน · LKAS ช่วยรักษาเลน · BSD จุดอับสายตา</span></div>
+          <div class="spec-row"><span class="sk">ระบบเพิ่มเติม</span><span class="sv">Intelligent ACC · TSR จดจำป้ายจราจร · OSW เตือนขับเกินความเร็ว · ISA ควบคุมความเร็วอัจฉริยะ</span></div>
+          <div class="spec-row"><span class="sk">ระบบถอย</span><span class="sv">RCTA · RCTB · RCW เตือนชนด้านหลัง · DOW เตือนเปิดประตู</span></div>
+          <div class="spec-row"><span class="sk">ระบบขั้นสูง</span><span class="sv">LCA เปลี่ยนเลน · ELK รักษาเลนฉุกเฉิน · FCTA / FCTB ด้านหน้า · MEB เบรกป้องกันชนซ้ำ</span></div>
+          <div class="spec-row"><span class="sk">อื่นๆ</span><span class="sv">ถุงลม 6 ใบ · ABS · EBD · TCS · ESC · HLA · ISOFIX · TPMS · ชุดปะยาง</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════ -->
+  <!-- 6. FORD                        -->
+  <!-- ══════════════════════════════ -->
+  <div id="ford" class="brand-card" style="--bc:#1B6EC2;--bt:#EBF8FF;--bta:#BEE3F8;">
+    <div class="card-header" onclick="toggle(this)">
+      <div class="card-brand-name" style="color:#1B6EC2;">FORD</div>
+      <div class="card-info">
+        <div class="card-model">Ranger Super Duty</div>
+        <div class="card-sub">Heavy-Duty Pickup · Diesel V6 · ประกาศราคา 23 มี.ค.</div>
+      </div>
+      <span class="card-chevron">▾</span>
+    </div>
+    <div class="badges-row">
+      <span class="bdg bdg-diesel">DIESEL V6</span>
+      <span class="bdg bdg-red">เปิดราคาในงาน</span>
+    </div>
+    <div class="card-body">
+      <div class="price-banner">
+        <div><span class="price-lbl">ราคาคาดการณ์</span><div class="price-val">~1.6xx,xxx ฿</div></div>
+        <div class="price-tag-hot">ประกาศ 23 มี.ค. 2569</div>
+      </div>
+      <p class="tagline">ออกแบบวิศวกรรมใหม่เกือบทั้งคัน เพื่อรองรับการใช้งานหนักหน่วง ลากจูงสูงสุด 4,500 กก. ลุยน้ำลึก 850 มม. รับประกัน 5 ปี / 100,000 กม.</p>
+      <div class="spec-section">
+        <div class="spec-title">ข้อมูลจำเพาะ</div>
+        <div class="spec-list">
+          <div class="spec-row"><span class="sk">ขนาดตัวถัง (ย×ก×ส)</span><span class="sv">5,447 × 2,035 × 1,975 มม.</span></div>
+          <div class="spec-row"><span class="sk">ระยะฐานล้อ</span><span class="sv">3,270 มม.</span></div>
+          <div class="spec-row"><span class="sk">ระยะต่ำสุดถึงพื้น</span><span class="sv">296 มม.</span></div>
+          <div class="spec-row"><span class="sk">มิติกระบะ (ก×ย×ส)</span><span class="sv">1,416 × 1,471 × 513 มม.</span></div>
+          <div class="spec-row"><span class="sk">เครื่องยนต์</span><span class="sv">ดีเซล V6 3.0 ลิตร 6 สูบ 24 วาล์ว เทอร์โบ (2,993 cc)</span></div>
+          <div class="spec-row highlight-row"><span class="sk">กำลังสูงสุด</span><span class="sv">210 แรงม้า</span></div>
+          <div class="spec-row"><span class="sk">ระบบขับเคลื่อน</span><span class="sv">4A-4WD · น็อตล้อ 8 รู</span></div>
+          <div class="spec-row highlight-row"><span class="sk">ลากจูงสูงสุด</span><span class="sv">4,500 กก. (น้ำหนักรถรวมบรรทุก 4.5 ตัน)</span></div>
+          <div class="spec-row"><span class="sk">ลุยน้ำสูงสุด</span><span class="sv">850 มม.</span></div>
+          <div class="spec-row"><span class="sk">ถังน้ำมัน</span><span class="sv">130 ลิตร</span></div>
+          <div class="spec-row"><span class="sk">โรงงาน</span><span class="sv">Auto Alliance Thailand (AAT) จ.ระยอง · ผลิตเพื่อขายในไทยและส่งออก</span></div>
+          <div class="spec-row"><span class="sk">รับประกัน</span><span class="sv">5 ปี / 100,000 กม.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p style="margin-top:1.5rem;font-size:.7rem;color:#718096;text-align:center;line-height:1.7;">
+    ⚠ ราคาที่มีเครื่องหมาย x ยังไม่ประกาศอย่างเป็นทางการ<br>ข้อมูล ณ 18 มีนาคม 2569 · อาจมีการเปลี่ยนแปลงโดยค่ายรถ
+  </p>
+</div>
+
+<footer>
+  <p>Bangkok International Motor Show 2026 · ครั้งที่ 47</p>
+  <p>25 มีนาคม – 5 เมษายน 2569 · Challenger Hall เมืองทองธานี</p>
+</footer>
+
+<script>
+// ── Accordion toggle ──
+function toggle(header) {
+  const card = header.closest('.brand-card');
+  const isOpen = card.classList.contains('open');
+  // close all
+  document.querySelectorAll('.brand-card.open').forEach(c => c.classList.remove('open'));
+  if (!isOpen) {
+    card.classList.add('open');
+    // smooth scroll so header stays visible
+    setTimeout(() => {
+      const top = card.getBoundingClientRect().top + window.scrollY - 56;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }, 50);
+  }
+}
+
+// ── Scroll reveal ──
+const revealEls = document.querySelectorAll('.brand-card');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.06 });
+revealEls.forEach((el, i) => {
+  el.style.transitionDelay = (i % 4) * 60 + 'ms';
+  io.observe(el);
+});
+
+// ── Auto-open first card ──
+setTimeout(() => {
+  const first = document.querySelector('.brand-card');
+  if (first) first.classList.add('open');
+}, 600);
+
+// ── Anchor smooth nav ──
+document.querySelectorAll('.brand-pill').forEach(pill => {
+  pill.addEventListener('click', e => {
+    const target = document.querySelector(pill.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      const top = target.getBoundingClientRect().top + window.scrollY - 56;
+      window.scrollTo({ top, behavior: 'smooth' });
+      // open that card
+      document.querySelectorAll('.brand-card.open').forEach(c => c.classList.remove('open'));
+      target.classList.add('open');
+    }
+  });
+});
+</script>
+</body>
+</html>
